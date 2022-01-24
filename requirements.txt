@@ -1,0 +1,2 @@
+azure_storage==0.37.0
+beautifulsoup4==4.10.0
