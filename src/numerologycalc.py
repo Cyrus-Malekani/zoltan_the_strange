@@ -3,7 +3,7 @@ from extra_functions import create_life_path_ssml, reduction, total, url_scrape,
 
 #Text to speech engine init
 import azure.cognitiveservices.speech as speechsdk
-my_key = "efbda9688be545df8d74bfdee2230c95"
+
 my_region = "northeurope"
 speech_config = speechsdk.SpeechConfig(subscription=my_key, region=my_region)
 speech_config.set_property_by_name("voice","en-US-BrandonNeural")
