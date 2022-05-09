@@ -1,11 +1,6 @@
 # Constants
 ALLOWED = ['.' , ',' , "'" , '"', ':' , ';' , '%', '>', '<', ' ' , '/' , '\\' , '=', '-', '+']
-<<<<<<< HEAD
-POS_CHOICES = ['y','oui','yes']
-NEG_CHOICES = ['n','no','non']
-=======
 CHOICES = ['y','yes','n','no']
->>>>>>> 4686177 (BETA 0.2)
 LANGUAGE = 'en'
 VOWELS = ["a","e","i","o","u","y"]
 MASTER_NUMBERS = [11, 22, 33]
