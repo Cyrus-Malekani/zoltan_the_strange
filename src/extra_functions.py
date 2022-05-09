@@ -9,20 +9,6 @@ from googletrans import Translator
 from argostranslate import package, translate
 installed_languages = translate.get_installed_languages()
 
-from_code = "en"
-to_code = "fr"
-
-# Translate
-installed_languages = translate.get_installed_languages()
-from_lang = list(filter(
-	lambda x: x.code == from_code,
-	installed_languages))[0]
-to_lang = list(filter(
-	lambda x: x.code == to_code,
-	installed_languages))[0]
-translation = from_lang.get_translation(to_lang)
-#translatedText = translation.translate("Hello World!")
-
 def find_all(name, path):
     result = []
     for root, dirs, files in os.walk(path):
@@ -32,14 +18,11 @@ def find_all(name, path):
 
 def create_life_path_ssmls(text, life_path):
     # Create new ssml for life path number
-    SSML_HEADER = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="fr-FR"><voice name="fr-FR-DeniseNeural"><prosody rate="-20%" pitch="-10%">\n' 
+    SSML_HEADER = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US"><voice name="en-US-BrandonNeural"><prosody rate="-20%" pitch="-10%">\n' 
     SSML_FOOTER = '</prosody></voice></speak>'
 
     buf = ""
     
-    text = translation.translate(text)
-
-    #print("INSIDE,TRANSLATED:",text)
     for letter in text:
         if letter == '.':
             buf += '. '
@@ -55,12 +38,8 @@ def create_life_path_ssmls(text, life_path):
     txt1 = text[:len(text)//2]
     txt2 = text[len(text)//2:]
 
-
     ssml_txt1 = SSML_HEADER + txt1 + "\n" + SSML_FOOTER
     ssml_txt2 = SSML_HEADER + txt2 + "\n" + SSML_FOOTER
-
-    #print("SSML 1", ssml_txt1)
-    #print("SSML 2", ssml_txt2)
 
     if os.path.isfile("life_path_" + str(life_path) + ".xml"):
        # print("The ssml for this life_path number already exists!")
@@ -130,21 +109,21 @@ def total(s,alphabet):
     return res
 
 def reduction(birth_date,alphabet):
-    buf = 0
+    d = 0
 
     for digit in birth_date:
         try:
             if digit.isdigit():
-                buf += int(digit)
+                d += int(digit)
             elif digit.isalpha:
-                buf += int(alphabet[digit])
+                d += int(alphabet[digit])
             else:
                 continue
         except:
             print("Something is wrong with reduction data!")
 
-        if buf not in MASTER_NUMBERS:
-            while len(str(buf)) > 1:
-                buf = int(str(buf)[0]) + int(str(buf)[1])
+        if d not in MASTER_NUMBERS:
+            while len(str(d)) > 1:
+                d = int(str(d)[0]) + int(str(d)[1])
 
-    return buf
+    return d
