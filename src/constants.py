@@ -1,6 +1,7 @@
 # Constants
 ALLOWED = ['.' , ',' , "'" , '"', ':' , ';' , '%', '>', '<', ' ' , '/' , '\\' , '=', '-', '+']
-CHOICES = ['y','n']
+POS_CHOICES = ['y','oui','yes']
+NEG_CHOICES = ['n','no','non']
 LANGUAGE = 'en'
 VOWELS = ["a","e","i","o","u","y"]
 MASTER_NUMBERS = [11, 22, 33]

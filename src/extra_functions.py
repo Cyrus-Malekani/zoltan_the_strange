@@ -1,23 +1,76 @@
 import os
+from re import S
 from constants import *
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
+from googletrans import Translator
+from argostranslate import package, translate
+installed_languages = translate.get_installed_languages()
 
-def create_life_path_ssml(text, life_path):
+from_code = "en"
+to_code = "fr"
+
+# Translate
+installed_languages = translate.get_installed_languages()
+from_lang = list(filter(
+	lambda x: x.code == from_code,
+	installed_languages))[0]
+to_lang = list(filter(
+	lambda x: x.code == to_code,
+	installed_languages))[0]
+translation = from_lang.get_translation(to_lang)
+#translatedText = translation.translate("Hello World!")
+
+def find_all(name, path):
+    result = []
+    for root, dirs, files in os.walk(path):
+        if name in files:
+            result.append(os.path.join(root, name))
+    return result
+
+def create_life_path_ssmls(text, life_path):
     # Create new ssml for life path number
-    ssml_txt = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="en-US"><voice name="en-US-BrandonNeural"><prosody rate="-20%" pitch="-10%">\n'
-    ssml_txt += text + "\n"
-    ssml_txt += '</prosody></voice></speak>'
+    SSML_HEADER = '<speak xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xmlns:emo="http://www.w3.org/2009/10/emotionml" version="1.0" xml:lang="fr-FR"><voice name="fr-FR-DeniseNeural"><prosody rate="-20%" pitch="-10%">\n' 
+    SSML_FOOTER = '</prosody></voice></speak>'
+
+    buf = ""
+    
+    text = translation.translate(text)
+
+    #print("INSIDE,TRANSLATED:",text)
+    for letter in text:
+        if letter == '.':
+            buf += '. '
+        elif letter == '!':
+            buf += '! '
+        elif letter == '?':
+            buf += '? '
+        else:
+            buf += letter
+
+    text = buf
+
+    txt1 = text[:len(text)//2]
+    txt2 = text[len(text)//2:]
+
+
+    ssml_txt1 = SSML_HEADER + txt1 + "\n" + SSML_FOOTER
+    ssml_txt2 = SSML_HEADER + txt2 + "\n" + SSML_FOOTER
+
+    #print("SSML 1", ssml_txt1)
+    #print("SSML 2", ssml_txt2)
 
     if os.path.isfile("life_path_" + str(life_path) + ".xml"):
-        print("The ssml for this life_path number already exists!")
-        print("Using Cached version.")
+       # print("The ssml for this life_path number already exists!")
+       # print("Using Cached version.")
         pass
     else:
-        with open("life_path_" + str(life_path) + ".xml",'w') as file:
-            file.write(ssml_txt)
+        with open("life_path_" + str(life_path) + "_1" + ".xml",'w') as file:
+            file.write(ssml_txt1)
+        with open("life_path_" + str(life_path) + "_2" + ".xml",'w') as file:
+            file.write(ssml_txt2)
 
 def url_scrape(url):
     p = []
