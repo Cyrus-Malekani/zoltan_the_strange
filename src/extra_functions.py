@@ -1,4 +1,5 @@
 import os
+import math
 from re import S
 from constants import *
 from urllib.request import urlopen
@@ -23,6 +24,7 @@ def create_life_path_ssmls(text, life_path):
 
     buf = ""
     
+    # Create air around punctuations
     for letter in text:
         if letter == '.':
             buf += '. '
@@ -35,21 +37,28 @@ def create_life_path_ssmls(text, life_path):
 
     text = buf
 
-    txt1 = text[:len(text)//2]
-    txt2 = text[len(text)//2:]
 
-    ssml_txt1 = SSML_HEADER + txt1 + "\n" + SSML_FOOTER
-    ssml_txt2 = SSML_HEADER + txt2 + "\n" + SSML_FOOTER
+    # Function for cutting up ssml files into 2800 character big ones, so that we can synthesize voice and download (cap 3000 chrs)
+    for i in range(1,math.ceil(len(text)/2800)+1):
+        ssml_txt = SSML_HEADER + text[i*2800:(i+1)*2800] + "\n" + SSML_FOOTER
+        with open("life_path_" + str(life_path) + "_" + i + ".xml",'w') as file:
+            file.write(ssml_txt)
 
-    if os.path.isfile("life_path_" + str(life_path) + ".xml"):
+    #txt1 = text[:len(text)//2]
+    #txt2 = text[len(text)//2:]
+
+    #ssml_txt1 = SSML_HEADER + txt1 + "\n" + SSML_FOOTER
+    #ssml_txt2 = SSML_HEADER + txt2 + "\n" + SSML_FOOTER
+
+    r#if os.path.isfile("life_path_" + str(life_path) + ".xml"):
        # print("The ssml for this life_path number already exists!")
        # print("Using Cached version.")
-        pass
-    else:
-        with open("life_path_" + str(life_path) + "_1" + ".xml",'w') as file:
-            file.write(ssml_txt1)
-        with open("life_path_" + str(life_path) + "_2" + ".xml",'w') as file:
-            file.write(ssml_txt2)
+       # pass
+    #else:
+        #with open("life_path_" + str(life_path) + "_1" + ".xml",'w') as file:
+            #file.write(ssml_txt1)
+        #with open("life_path_" + str(life_path) + "_2" + ".xml",'w') as file:
+            #file.write(ssml_txt2)
 
 def url_scrape(url):
     p = []

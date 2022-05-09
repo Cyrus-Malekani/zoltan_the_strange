@@ -59,15 +59,19 @@ while choice not in CHOICES:
             create_life_path_ssmls(my_text,life_path)
 
             # Gather all the ssml's for the number in the list
-            #ssml_list = find_all(str(life_path),'../')
-            #print(ssml_list)
+            ssml_list = find_all(str(life_path),'../')
+            print(ssml_list)
+            
+            for i in range(1,len(ssml_list)+1):
+                ssml_string = open("life_path_" + str(life_path) + "_" + i + ".xml", "r").read()
+
 
             # Read it - if it's too large for the synthesize buffer, read one after another.
-            ssml_string = open("life_path_" + str(life_path) + "_1" + ".xml", "r").read()
+            #ssml_string = open("life_path_" + str(life_path) + "_1" + ".xml", "r").read()
             #speech_synthesizer.speak_ssml_async(ssml_string).get()
 
             # Read it - if it's too large for the synthesize buffer, read one after another.
-            ssml_string = open("life_path_" + str(life_path) + "_2" + ".xml", "r").read()
+            #ssml_string = open("life_path_" + str(life_path) + "_2" + ".xml", "r").read()
             #speech_synthesizer.speak_ssml_async(ssml_string).get()
 
         elif choice == CHOICES[2] or choice == CHOICES[3]:
