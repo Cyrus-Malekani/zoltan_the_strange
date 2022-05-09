@@ -2,5 +2,3 @@ azure-cognitiveservices-speech
 bs4
 html5lib
 torch
-pytorch
-torch==1.8.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
