@@ -23,22 +23,22 @@ speech_config.set_property_by_name("voice","fr-FR-DeniseNeural")
 # Creates a speech synthesizer using the default speaker as audio output.
 speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
-#Life path
-personal_year = ""
+# Intro text
 clear()
 print("       ***      ZOLTAN THE STRANGE, GREETS YOU!      *** ")
 print("  !!! TELL ME YOUR BIRTHDATE, AND I WILL TELL YOU WHAT'S UP !!!\n\n")
 birth_date = input("ENTER YOUR BIRTHDATE (YYYYMMDD): ")
 
+# Current year is 2022 = 2+2+2 = 6
 personal_year = 6
 
 birth_day = birth_date[-2] + birth_date[-1]
 
 while len(birth_date) != 8:
     try:
-        birth_date = input("ENTREZ VOTRE DATE DE NAISSANCE (YYYYMMDD): ")
+        birth_date = input("ENTER YOUR BIRTHDATE (YYYYMMDD): ")
     except:
-        print("Veuillez écrire sous forme YYYYMMDD (8 chiffres)")
+        print("Please use the form: YYYYMMDD (8 digits)")
 
 life_path = reduction(birth_date, PYTHAGOREAN_ALPHABET)
 personal_year += reduction(birth_date[4:], PYTHAGOREAN_ALPHABET)
@@ -64,23 +64,23 @@ while choice not in CHOICES:
 
             # Read it - if it's too large for the synthesize buffer, read one after another.
             ssml_string = open("life_path_" + str(life_path) + "_1" + ".xml", "r").read()
-            speech_synthesizer.speak_ssml_async(ssml_string).get()
+            #speech_synthesizer.speak_ssml_async(ssml_string).get()
 
             # Read it - if it's too large for the synthesize buffer, read one after another.
             ssml_string = open("life_path_" + str(life_path) + "_2" + ".xml", "r").read()
-            speech_synthesizer.speak_ssml_async(ssml_string).get()
+            #speech_synthesizer.speak_ssml_async(ssml_string).get()
 
         elif choice == CHOICES[2] or choice == CHOICES[3]:
             for paragraph in my_list:
                 #print(paragraph,end="\n\n")
                 pass
         else:
-            print("Réessayez, cette fois !")
+            print("Try again!")
             continue
 
 
-print("Votre année personnelle est:", personal_year)
-print("Votre numéro de jour de naissance est:",birth_day,"et représente", BIRTH_DAY[int(birth_day.replace("0",""))],"\n")
+print("Personal year number:", personal_year)
+print("Birth day number:", birth_day,"and it represents;", BIRTH_DAY[int(birth_day.replace("0",""))],"\n")
 
 #Destiny number
 destiny_number = ""
