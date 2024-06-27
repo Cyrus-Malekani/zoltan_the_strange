@@ -5,9 +5,17 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.error import URLError
 from bs4 import BeautifulSoup
-from googletrans import Translator
-from argostranslate import package, translate
-installed_languages = translate.get_installed_languages()
+from gtts import gTTS
+import os
+import playsound
+
+def speak(text):
+    tts = gTTS(text=text, lang='en')
+
+    filename = "zoltan_reading.mp3"
+    tts.save(filename)
+    playsound.playsound(filename)
+    os.remove(filename)
 
 def find_all(name, path):
     result = []
@@ -68,23 +76,29 @@ def url_scrape(url):
 
         res = BeautifulSoup(html.read(),"html5lib")
         tags = res.findAll("p")
-        title = res.findAll("span")
+        title = res.findAll ("span")
 
         for tag in tags:
+            text = tag.getText().lower()
             p.append(tag.getText().lower())
 
+    #print("p before:", p)
     p = p[1:-11]
+   
     p.insert(0,title[4].getText().lower())
+    #print("\n\n###\n\n")
+    #print("p after:", p)
     
     for paragraph in p:
         text += paragraph
     
-    return (text,p)
+    return (p)
 
 def name_calc(name_list, alphabet):
     destiny_number = ""
     soul_urge_number = ""
     personality_number = ""
+    family_number = ""
 
     for name in name_list:
         for letter in name:

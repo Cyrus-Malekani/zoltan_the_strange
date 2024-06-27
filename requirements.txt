@@ -1,6 +1,4 @@
-azure-cognitiveservices-speech
 bs4
 html5lib
-torch
-googletranslate
-argostranslate
+gtts
+playsound
