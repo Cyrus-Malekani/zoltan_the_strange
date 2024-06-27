@@ -1,12 +1,9 @@
 import unicodedata
-import pyttsx3
 
 from constants import *
 from extra_functions import reduction, total, url_scrape, name_calc, speak
 from os import system, name
 
-# Speech engine
-engine = pyttsx3.init()
 
 # Clear screen function
 def clear():
